@@ -7,6 +7,8 @@ package uts;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Ade Ilham Fajri
@@ -16,8 +18,8 @@ class ClientImpl {
      public void start(){
         try {
             
-            Scanner scanner = new Scanner(System.in);
-            String masukan = scanner.nextLine();
+            Scanner scan = new Scanner(System.in);
+            String masukan = scans.nextLine();
             
             while (!masukan.contentEquals("exit")) {
                 Socket socket = new Socket("10.151.34.155", 6666);
@@ -35,7 +37,7 @@ class ClientImpl {
                     System.out.print(new String(buf));
                 }
                 
-                masukan = scanner.nextLine();
+                masukan = scan.nextLine();
                 os.close();
                 is.close();
             }
