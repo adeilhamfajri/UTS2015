@@ -3,51 +3,51 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package stream_6;
+package uts;
+import com.sun.security.ntlm.Client;
 import java.io.*;
-import java.util.*;
 import java.net.*;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 /**
  *
  * @author Ade Ilham Fajri
  */
-public class client_stream {
+class ClientImpl {
     
-      public static void main(String[] args){
-         
-          try {
-              byte[] buffer = new byte[10];
-              Socket socket_ku = new Socket("localhost", 222);
-              
-              InputStream input_stream = socket_ku.getInputStream();
-              OutputStream output_stream = socket_ku.getOutputStream();
-              
-              output_stream.write("Hello Server IF ini dari sisi Client\r\n\r\n".getBytes());
-              output_stream.flush();
-              
-              int len;
-              
-              while(true){
-                  buffer = new byte[10];
-                  len = input_stream.read(buffer);
-                  
-                  if(len==-1){
-                      break;
-                  }
-                  System.out.println(new String(buffer));
-              }
-              output_stream.close();
-              input_stream.close();
-              socket_ku.close();
-                      } catch (IOException ex) {
-              Logger.getLogger(client_stream.class.getName()).log(Level.SEVERE, null, ex);
-          }
-      }
+     public void start(){
+        try {
+            
+            Scanner scanner = new Scanner(System.in);
+       
+                String test = " ";
+            
+            while (!test.contentEquals("exit")) {
+                Socket socket = new Socket("10.151.34.155", 6666);
+                try (InputStream is = socket.getInputStream()) {
+                    OutputStream os = socket.getOutputStream();
+                    os.write(test.getBytes());
+                    os.flush();
+                    
+                    while (true) {
+                        byte[] buf = new byte[10];
+                        int len = is.read(buf);
+                        if(len == -1){
+                            break;
+                        }
+                        System.out.print(new String(buf));
+                    }
 
-    private static int input_stream(byte[] buffer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                    
+                    test = scanner.nextLine();
+                    os.close();
+                }
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-}
+ }
+
