@@ -4,12 +4,9 @@
  * and open the template in the editor.
  */
 package uts;
-import com.sun.security.ntlm.Client;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 /**
  *
  * @author Ade Ilham Fajri
@@ -20,29 +17,27 @@ class ClientImpl {
         try {
             
             Scanner scanner = new Scanner(System.in);
-       
-                String test = " ";
+            String masukan = scanner.nextLine();
             
-            while (!test.contentEquals("exit")) {
+            while (!masukan.contentEquals("exit")) {
                 Socket socket = new Socket("10.151.34.155", 6666);
-                try (InputStream is = socket.getInputStream()) {
-                    OutputStream os = socket.getOutputStream();
-                    os.write(test.getBytes());
-                    os.flush();
-                    
-                    while (true) {
-                        byte[] buf = new byte[10];
-                        int len = is.read(buf);
-                        if(len == -1){
-                            break;
-                        }
-                        System.out.print(new String(buf));
+                InputStream is = socket.getInputStream();
+                OutputStream os = socket.getOutputStream();
+                os.write(masukan.getBytes());
+                os.flush();
+                
+                while (true) {
+                    byte[] buf = new byte[10];
+                    int len = is.read(buf);
+                    if(len == -1){
+                        break;
                     }
-
-                    
-                    test = scanner.nextLine();
-                    os.close();
+                    System.out.print(new String(buf));
                 }
+                
+                masukan = scanner.nextLine();
+                os.close();
+                is.close();
             }
             
         } catch (IOException ex) {
