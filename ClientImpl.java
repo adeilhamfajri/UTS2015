@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package uts;
+import com.sun.security.ntlm.Client;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -18,17 +19,11 @@ class ClientImpl {
      public void start(){
         try {
             
-            Scanner scan = new Scanner(System.in);
-            String masukan = scans.nextLine();
+            Socket socket = new Socket("10.151.34.155", 6666);
+            InputStream is = socket.getInputStream();
+            OutputStream os = socket.getOutputStream();
             
-            while (!masukan.contentEquals("GIVEUP")) {
-                Socket socket = new Socket("10.151.34.155", 6666);
-                InputStream is = socket.getInputStream();
-                OutputStream os = socket.getOutputStream();
-                os.write(masukan.getBytes());
-                os.flush();
-                
-                while (true) {
+             while (true) {
                     byte[] buf = new byte[10];
                     int len = is.read(buf);
                     if(len == -1){
@@ -37,6 +32,25 @@ class ClientImpl {
                     System.out.print(new String(buf));
                 }
                 
+             
+            Scanner scan = new Scanner(System.in);
+            String masukan = scan.nextLine();
+            
+            while (!masukan.contentEquals("GIVEUP")) {
+                
+                os.write(masukan.getBytes());
+                os.flush();
+                
+                 while (true) {
+                    byte[] buf = new byte[10];
+                    int len = is.read(buf);
+                    if(len == -1){
+                        break;
+                    }
+                    System.out.print(new String(buf));
+                }
+                
+    
                 masukan = scan.nextLine();
                 os.close();
                 is.close();
