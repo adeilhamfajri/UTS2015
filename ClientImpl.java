@@ -21,7 +21,7 @@ class ClientImpl {
             Scanner scan = new Scanner(System.in);
             String masukan = scans.nextLine();
             
-            while (!masukan.contentEquals("exit")) {
+            while (!masukan.contentEquals("GIVEUP")) {
                 Socket socket = new Socket("10.151.34.155", 6666);
                 InputStream is = socket.getInputStream();
                 OutputStream os = socket.getOutputStream();
